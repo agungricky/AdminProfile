@@ -1,6 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import feather from 'feather-icons';
+import { Link } from '@inertiajs/react';
 
 function Sidebar() {
+    const [openMenus, setOpenMenus] = useState({});
+
+    const toggleMenu = (key) => {
+        setOpenMenus(prev => ({
+            ...prev,
+            [key]: !prev[key]
+        }));
+    };
+
+    useEffect(() => {
+        feather.replace();
+    }, [openMenus]);
+
+    const isOpen = (key) => openMenus[key];
+
     return (
         <nav className="pc-sidebar">
             <div className="navbar-wrapper">
@@ -19,176 +36,177 @@ function Sidebar() {
                         <li className="pc-item">
                             <ul>
                                 <li className="pc-item">
-                                    <a href="../dashboard/index.html" className="pc-link">
+                                    <Link href={route('dashboard')} className="pc-link">
                                         <span className="pc-micon">
                                             <i data-feather="home"></i>
                                         </span>
                                         <span className="pc-mtext">Dashboard</span>
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
-                        </li>
-
-                        <li className="pc-item pc-caption">
-                            <label>UI Components</label>
-                            <i data-feather="feather"></i>
-                        </li>
-
-                        <li className="pc-item pc-hasmenu">
-                            <a href="../elements/bc_color.html" className="pc-link">
-                                <span className="pc-micon">
-                                    <i data-feather="edit"></i>
-                                </span>
-                                <span className="pc-mtext">Color</span>
-                            </a>
-                        </li>
-
-                        <li className="pc-item pc-hasmenu">
-                            <a href="../elements/bc_typography.html" className="pc-link">
-                                <span className="pc-micon">
-                                    <i data-feather="type"></i>
-                                </span>
-                                <span className="pc-mtext">Typography</span>
-                            </a>
-                        </li>
-
-                        <li className="pc-item pc-hasmenu">
-                            <a href="../elements/icon-feather.html" className="pc-link">
-                                <span className="pc-micon">
-                                    <i data-feather="feather"></i>
-                                </span>
-                                <span className="pc-mtext">Icons</span>
-                            </a>
                         </li>
 
                         <li className="pc-item pc-caption">
                             <label>Pages</label>
-                            <i data-feather="monitor"></i>
-                        </li>
-
-                        <li className="pc-item pc-hasmenu">
-                            <a href="../pages/login-v1.html" className="pc-link" target="_blank">
-                                <span className="pc-micon">
-                                    <i data-feather="lock"></i>
-                                </span>
-                                <span className="pc-mtext">Login</span>
-                            </a>
-                        </li>
-
-                        <li className="pc-item pc-hasmenu">
-                            <a href="../pages/register-v1.html" className="pc-link" target="_blank">
-                                <span className="pc-micon">
-                                    <i data-feather="user-plus"></i>
-                                </span>
-                                <span className="pc-mtext">Register</span>
-                            </a>
-                        </li>
-
-                        <li className="pc-item pc-caption">
-                            <label>Other</label>
                             <i data-feather="sidebar"></i>
                         </li>
 
-                        <li className="pc-item pc-hasmenu">
-                            <a href="#!" className="pc-link">
+
+                        <li className={`pc-item pc-hasmenu ${isOpen('home-levels') ? 'open' : ''}`}>
+                            <button
+                                className="pc-link w-full text-left"
+                                onClick={() => toggleMenu('home-levels')}
+                            >
                                 <span className="pc-micon">
-                                    <i data-feather="align-right"></i>
+                                    <i data-feather="home"></i>
                                 </span>
-                                <span className="pc-mtext">Menu levels</span>
+                                <span className="pc-mtext">Home</span>
                                 <span className="pc-arrow">
                                     <i className="ti ti-chevron-right"></i>
                                 </span>
-                            </a>
+                            </button>
 
-                            <ul className="pc-submenu">
-                                <li className="pc-item">
-                                    <a className="pc-link" href="#!">Level 2.1</a>
-                                </li>
 
-                                <li className="pc-item pc-hasmenu">
-                                    <a href="#!" className="pc-link">
-                                        Level 2.2
-                                        <span className="pc-arrow">
-                                            <i className="ti ti-chevron-right"></i>
-                                        </span>
-                                    </a>
+                            {isOpen('home-levels') && (
+                                <ul className="pc-submenu">
+                                    <li className="pc-item">
+                                        <Link className="pc-link" href={route('project.index')}>Aplikasi Pernah dibuat</Link>
+                                    </li>
 
-                                    <ul className="pc-submenu">
-                                        <li className="pc-item">
-                                            <a className="pc-link" href="#!">Level 3.1</a>
-                                        </li>
-                                        <li className="pc-item">
-                                            <a className="pc-link" href="#!">Level 3.2</a>
-                                        </li>
-                                        <li className="pc-item pc-hasmenu">
-                                            <a href="#!" className="pc-link">
-                                                Level 3.3
-                                                <span className="pc-arrow">
-                                                    <i className="ti ti-chevron-right"></i>
-                                                </span>
-                                            </a>
+                                    <li className="pc-item">
+                                        <a className="pc-link" href="#!">Teknologi sedang dipelajari</a>
+                                    </li>
+                                </ul>
+                            )}
+                        </li>
 
-                                            <ul className="pc-submenu">
-                                                <li className="pc-item">
-                                                    <a className="pc-link" href="#!">Level 4.1</a>
-                                                </li>
-                                                <li className="pc-item">
-                                                    <a className="pc-link" href="#!">Level 4.2</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
+                        <li className={`pc-item pc-hasmenu ${isOpen('about-levels') ? 'open' : ''}`}>
+                            <button
+                                className="pc-link w-full text-left"
+                                onClick={() => toggleMenu('about-levels')}
+                            >
+                                <span className="pc-micon">
+                                    <i data-feather="user"></i>
+                                </span>
+                                <span className="pc-mtext">About</span>
+                                <span className="pc-arrow">
+                                    <i className="ti ti-chevron-right"></i>
+                                </span>
+                            </button>
 
-                                <li className="pc-item pc-hasmenu">
-                                    <a href="#!" className="pc-link">
-                                        Level 2.3
-                                        <span className="pc-arrow">
-                                            <i className="ti ti-chevron-right"></i>
-                                        </span>
-                                    </a>
 
-                                    <ul className="pc-submenu">
-                                        <li className="pc-item">
-                                            <a className="pc-link" href="#!">Level 3.1</a>
-                                        </li>
-                                        <li className="pc-item">
-                                            <a className="pc-link" href="#!">Level 3.2</a>
-                                        </li>
-                                        <li className="pc-item pc-hasmenu">
-                                            <a href="#!" className="pc-link">
-                                                Level 3.3
-                                                <span className="pc-arrow">
-                                                    <i className="ti ti-chevron-right"></i>
-                                                </span>
-                                            </a>
+                            {isOpen('about-levels') && (
+                                <ul className="pc-submenu">
+                                    <li className="pc-item">
+                                        <a className="pc-link" href="#!">Riwayat Karier</a>
+                                    </li>
 
-                                            <ul className="pc-submenu">
-                                                <li className="pc-item">
-                                                    <a className="pc-link" href="#!">Level 4.1</a>
-                                                </li>
-                                                <li className="pc-item">
-                                                    <a className="pc-link" href="#!">Level 4.2</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
+                                    <li className="pc-item">
+                                        <a className="pc-link" href="#!">Tentang Saya</a>
+                                    </li>
+                                </ul>
+                            )}
                         </li>
 
                         <li className="pc-item">
                             <a href="../other/sample-page.html" className="pc-link">
                                 <span className="pc-micon">
-                                    <i data-feather="sidebar"></i>
+                                    <i data-feather="award"></i>
                                 </span>
-                                <span className="pc-mtext">Sample page</span>
+                                <span className="pc-mtext">Prestasi</span>
                             </a>
                         </li>
+
+                        <li className="pc-item">
+                            <a href="../other/sample-page.html" className="pc-link">
+                                <span className="pc-micon">
+                                    <i data-feather="airplay"></i>
+                                </span>
+                                <span className="pc-mtext">Project Live</span>
+                            </a>
+                        </li>
+
+                        <li className="pc-item">
+                            <a href="../other/sample-page.html" className="pc-link">
+                                <span className="pc-micon">
+                                    <i data-feather="message-square"></i>
+                                </span>
+                                <span className="pc-mtext">Message</span>
+                            </a>
+                        </li>
+
+                        {/* Menu Item */}
+                        {/* <li className={`pc-item pc-hasmenu ${isOpen('about-levels') ? 'open' : ''}`}>
+                            <button
+                                className="pc-link w-full text-left"
+                                onClick={() => toggleMenu('about-levels')}
+                            >
+                                <span className="pc-micon">
+                                    <i data-feather="home"></i>
+                                </span>
+                                <span className="pc-mtext">Home</span>
+                                <span className="pc-arrow">
+                                    <i className="ti ti-chevron-right"></i>
+                                </span>
+                            </button>
+
+
+                            {isOpen('about-levels') && (
+                                <ul className="pc-submenu">
+                                    <li className="pc-item">
+                                        <a className="pc-link" href="#!">Riwayat Karier</a>
+                                    </li>
+
+                                    <li className="pc-item">
+                                        <a className="pc-link" href="#!">Tentang Saya</a>
+                                    </li>
+
+                                    <li className={`pc-item pc-hasmenu ${isOpen('level-2-2') ? 'open' : ''}`}>
+                                        <a href="#!" className="pc-link" onClick={() => toggleMenu('level-2-2')}>
+                                            Level 2.2
+                                            <span className="pc-arrow">
+                                                <i className="ti ti-chevron-right"></i>
+                                            </span>
+                                        </a>
+
+                                        {isOpen('level-2-2') && (
+                                            <ul className="pc-submenu">
+                                                <li className="pc-item">
+                                                    <a className="pc-link" href="#!">Level 3.1</a>
+                                                </li>
+                                                <li className="pc-item">
+                                                    <a className="pc-link" href="#!">Level 3.2</a>
+                                                </li>
+
+                                                <li className={`pc-item pc-hasmenu ${isOpen('level-3-3') ? 'open' : ''}`}>
+                                                    <a href="#!" className="pc-link" onClick={() => toggleMenu('level-3-3')}>
+                                                        Level 3.3
+                                                        <span className="pc-arrow">
+                                                            <i className="ti ti-chevron-right"></i>
+                                                        </span>
+                                                    </a>
+
+                                                    {isOpen('level-3-3') && (
+                                                        <ul className="pc-submenu">
+                                                            <li className="pc-item">
+                                                                <a className="pc-link" href="#!">Level 4.1</a>
+                                                            </li>
+                                                            <li className="pc-item">
+                                                                <a className="pc-link" href="#!">Level 4.2</a>
+                                                            </li>
+                                                        </ul>
+                                                    )}
+                                                </li>
+                                            </ul>
+                                        )}
+                                    </li>
+                                </ul>
+                            )}
+                        </li> */}
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav >
     )
 }
 

@@ -1,12 +1,9 @@
-import Sidebar from "@/Layouts/main/Sidebar";
-import Navbar from "@/Layouts/main/Navbar";
+import Main from "./Main";
 
 export default function Dashboard() {
     return (
-        <>
-            <Sidebar />
-            <Navbar />
-        </>
-
+        <Main>
+            <h1>Ini DashBoard</h1>
+        </Main>
     );
 }

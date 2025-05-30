@@ -45,7 +45,6 @@ function Navbar() {
         }
     };
 
-
     // Thema Halaman Web
     const iconMap = {
         light: 'sun',
