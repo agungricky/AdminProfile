@@ -1,6 +1,9 @@
 import Main from "../Main"
 import { router } from '@inertiajs/react';
 import HeaderPages from "@/Layouts/itemPages/HeaderPages";
+import { useEffect, useState } from "react";
+import ModalDetail from "@/Components/modal/ModalDetail";
+import ModalEdit from "@/Components/modal/modalEdit";
 
 function Projects({ project }) {
     const handleToggle = (id, newStatus) => {
@@ -15,8 +18,18 @@ function Projects({ project }) {
         });
     };
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const toggleModal = () => setIsModalOpen(!isModalOpen);
+    const [data, setData] = useState('');
+
+    const [isEdit, setIsEdit] = useState(false);
+    const toggleEdit = () => setIsEdit(!isEdit);
+
     return (
         <Main>
+            <ModalDetail isOpen={isModalOpen} onClose={toggleModal} data={data} />
+            <ModalEdit isOpen={isEdit} onClose={toggleEdit} data={data} />
+
             <div className="pc-container">
                 <div className="pc-content">
                     <HeaderPages
@@ -29,7 +42,15 @@ function Projects({ project }) {
                     <div className="col-span-12 xl:col-span-8 md:col-span-6">
                         <div className="card table-card">
                             <div className="card-header">
-                                <h5>All Projects</h5>
+                                <div className="flex justify-between items-center">
+                                    <h5>All Projects</h5>
+                                    <button
+                                        type="button"
+                                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                                    >
+                                        Tambah Project
+                                    </button>
+                                </div>
                             </div>
                             <div className="card-body">
                                 <div className="table-responsive">
@@ -43,7 +64,7 @@ function Projects({ project }) {
                                                         </td>
                                                         <td>
                                                             <h6 className="mb-1">{item?.title}</h6>
-                                                                {item?.desc?.length > 20 ? item.desc.slice(0, 60) + '...' : item.desc}
+                                                            {item?.desc?.length > 20 ? item.desc.slice(0, 60) + '...' : item.desc}
                                                             <p className="m-0"></p>
                                                         </td>
                                                         <td>
@@ -73,12 +94,19 @@ function Projects({ project }) {
                                                         </td>
 
                                                         <td>
-                                                            <a href="#!" className="badge bg-theme-bg-1 text-white text-[12px]">
+                                                            <button onClick={() => {
+                                                                setData(item);
+                                                                setIsModalOpen(true);
+                                                            }} className="badge bg-theme-bg-1 text-white text-[12px]">
                                                                 Detail
-                                                            </a>
-                                                            <a href="#!" className="badge bg-theme-bg-2 text-white text-[12px] mx-2">
+                                                            </button>
+                                                            <button onClick={() => {
+                                                                setIsEdit(true);
+                                                                setData(item);
+                                                            }}
+                                                                className="badge bg-theme-bg-2 text-white text-[12px] mx-2">
                                                                 Edit
-                                                            </a>
+                                                            </button>
                                                             <a href="#!" className="badge bg-red-500 text-white text-[12px]">
                                                                 Delete
                                                             </a>

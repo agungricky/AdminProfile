@@ -1,3 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Optional: Impor stylesheet Flowbite */
+@import 'flowbite/dist/flowbite.min.css';
