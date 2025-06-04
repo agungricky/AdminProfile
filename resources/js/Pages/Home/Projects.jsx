@@ -1,9 +1,10 @@
 import Main from "../Main"
 import { router } from '@inertiajs/react';
 import HeaderPages from "@/Layouts/itemPages/HeaderPages";
-import { useEffect, useState } from "react";
-import ModalDetail from "@/Components/modal/ModalDetail";
-import ModalEdit from "@/Components/modal/modalEdit";
+import { useState } from "react";
+import Modal from "@/Components/modal/Modal";
+import InputText from "@/Components/form/InputText";
+import TextArea from "@/Components/form/TextArea";
 
 function Projects({ project }) {
     const handleToggle = (id, newStatus) => {
@@ -18,17 +19,124 @@ function Projects({ project }) {
         });
     };
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const toggleModal = () => setIsModalOpen(!isModalOpen);
-    const [data, setData] = useState('');
+    const [data, setData] = useState(null);
 
-    const [isEdit, setIsEdit] = useState(false);
-    const toggleEdit = () => setIsEdit(!isEdit);
+    const [detail, setDetail] = useState(false);
+    const [edit, setEdit] = useState(false);
+    const handleUpdate = () => {
+        
+    }
+
+
+
+    const [modal, setModal] = useState(false);
+    const toggleClose = () => setModal(false);
+
+
 
     return (
         <Main>
-            <ModalDetail isOpen={isModalOpen} onClose={toggleModal} data={data} />
+            {/* <ModalDetail isOpen={isModalOpen} onClose={toggleModal} data={data} />
             <ModalEdit isOpen={isEdit} onClose={toggleEdit} data={data} />
+            <ModalAdd isOpen={addData} onClose={toggleAdd} /> */}
+            <Modal
+                isOpen={modal}
+                onClose={() => { setModal(false) }}
+                header={"Traralelo"}
+                body={
+                    <>
+                        <p className="text-gray-600 dark:text-gray-300">
+                            <span>Desc :</span> <br />
+                            Ini deskripsi
+                        </p>
+                        <p className="text-gray-600 dark:text-gray-300">
+                            Link : <br />
+                            Ini Link
+                        </p>
+                    </>
+                }
+                footer={
+                    <>
+                        <button
+                            onClick={toggleClose}
+                            className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5"
+                        >
+                            Tutup Modal
+                        </button>
+                    </>
+                }
+            />
+
+            {/* Detail */}
+            <Modal
+                isOpen={detail}
+                onClose={() => { setDetail(false) }}
+                header={data?.title}
+                body={
+                    <>
+                        <p className="text-gray-600 dark:text-gray-300">
+                            <span>Desc :</span> <br />
+                            {data?.desc}
+                        </p>
+                        <p className="text-gray-600 dark:text-gray-300">
+                            Link : <br />
+                            {data?.link}
+                        </p>
+                    </>
+                }
+                footer={
+                    <>
+                        <button
+                            onClick={() => setDetail(false)}
+                            className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5"
+                        >
+                            Tutup Modal
+                        </button>
+                    </>
+                }
+            />
+
+            {/* Edit */}
+            <Modal
+                isOpen={edit}
+                onClose={() => { setEdit(false) }}
+                header={data?.title}
+                body={
+                    <form className="p-4 md:p-5" id="projectEdit" onSubmit={handleUpdate}>
+                        <div className="grid gap-4 mb-4 grid-cols-2">
+                            <div className="col-span-2">
+                                <InputText data={data?.title} />
+                            </div>
+                            <div className="col-span-2">
+                                <InputText data={data?.link} />
+                            </div>
+                            <div className="col-span-2">
+                                <TextArea data={data?.desc} />
+                            </div>
+                        </div>
+                    </form>
+                }
+                footer={
+                    <button
+                        type="submit"
+                        form="projectEdit"
+                        className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                        <svg
+                            className="me-1 -ms-1 w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
+                        Update Data
+                    </button>
+                }
+            />
 
             <div className="pc-container">
                 <div className="pc-content">
@@ -46,6 +154,7 @@ function Projects({ project }) {
                                     <h5>All Projects</h5>
                                     <button
                                         type="button"
+                                        onClick={() => setModal(true)}
                                         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                                     >
                                         Tambah Project
@@ -95,13 +204,14 @@ function Projects({ project }) {
 
                                                         <td>
                                                             <button onClick={() => {
+                                                                setDetail(true);
                                                                 setData(item);
-                                                                setIsModalOpen(true);
-                                                            }} className="badge bg-theme-bg-1 text-white text-[12px]">
+                                                            }}
+                                                                className="badge bg-theme-bg-1 text-white text-[12px]">
                                                                 Detail
                                                             </button>
                                                             <button onClick={() => {
-                                                                setIsEdit(true);
+                                                                setEdit(true);
                                                                 setData(item);
                                                             }}
                                                                 className="badge bg-theme-bg-2 text-white text-[12px] mx-2">
