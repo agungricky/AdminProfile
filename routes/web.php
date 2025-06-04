@@ -27,7 +27,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/Project', [projectController::class, 'index'])->name('project.index');
+    Route::post('/Project/add', [projectController::class, 'store'])->name('project.store');
     Route::post('/projects/{id}/toggle-status', [ProjectController::class, 'toggleStatus'])->name('projects.status');
+    Route::patch('/projects/{id}', [ProjectController::class, 'update'])->name('project.update');
+    Route::delete('/project/{id}', [projectController::class, 'destroy'])->name('project.destroy');
+
 });
 
 require __DIR__.'/auth.php';

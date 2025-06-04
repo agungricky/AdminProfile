@@ -1,5 +1,5 @@
 import Main from "../Main"
-import { router } from '@inertiajs/react';
+import { router, useForm } from '@inertiajs/react';
 import HeaderPages from "@/Layouts/itemPages/HeaderPages";
 import { useState } from "react";
 import Modal from "@/Components/modal/Modal";
@@ -19,51 +19,127 @@ function Projects({ project }) {
         });
     };
 
-    const [data, setData] = useState(null);
-
     const [detail, setDetail] = useState(false);
     const [edit, setEdit] = useState(false);
-    const handleUpdate = () => {
-        
-    }
-
-
-
-    const [modal, setModal] = useState(false);
+    const [destroy, setDestroy] = useState(false);
+    const [add, setAdd] = useState(false);
     const toggleClose = () => setModal(false);
 
 
+    const { data, setData, post, patch } = useForm(null);
+
+    const handleAdd = (e) => {
+        e.preventDefault();
+        post(route('project.store'), {
+            preserveScroll: true,
+            onSuccess: () => {
+                setAdd(false);
+            },
+            onError: (errors) => {
+                console.error('Add failed', errors);
+            }
+        });
+    };
+
+    const Edit = (item) => {
+        setEdit(true);
+        setData({
+            id: item.id,
+            title: item.title,
+            tahun: item.tahun,
+            link: item.link,
+            desc: item.desc,
+        });
+    };
+
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        patch(route('project.update', data.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                setEdit(false);
+            },
+            onError: (errors) => {
+                console.error('Update failed', errors);
+            }
+        });
+    };
+
+    const { delete: hapus } = useForm();
+    const handleDelete = (id) => {
+        hapus(route('project.destroy', id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                setDestroy(false);
+            },
+            onError: (errors) => {
+                console.error('Delete failed', errors);
+            }
+        });
+    };
 
     return (
         <Main>
-            {/* <ModalDetail isOpen={isModalOpen} onClose={toggleModal} data={data} />
-            <ModalEdit isOpen={isEdit} onClose={toggleEdit} data={data} />
-            <ModalAdd isOpen={addData} onClose={toggleAdd} /> */}
+
+            {/* Add Project */}
             <Modal
-                isOpen={modal}
-                onClose={() => { setModal(false) }}
-                header={"Traralelo"}
+                isOpen={add}
+                onClose={() => { setAdd(false) }}
+                header="Add Project"
                 body={
-                    <>
-                        <p className="text-gray-600 dark:text-gray-300">
-                            <span>Desc :</span> <br />
-                            Ini deskripsi
-                        </p>
-                        <p className="text-gray-600 dark:text-gray-300">
-                            Link : <br />
-                            Ini Link
-                        </p>
-                    </>
+                    <form className="p-4 md:p-5" id="projectAdd" onSubmit={handleAdd}>
+                        <div className="grid gap-4 mb-4 grid-cols-2">
+                            <div className="col-span-2">
+                                <InputText
+                                    label="Title"
+                                    name={data?.title}
+                                    onChange={(e) => setData('title', e.target.value)}
+                                    placeholder="Masukkan Title" />
+                            </div>
+                            <div className="col-span-2">
+                                <InputText
+                                    label="Tahun"
+                                    name={data?.tahun}
+                                    onChange={(e) => setData('tahun', e.target.value)}
+                                    placeholder="Masukkan Tahun" />
+                            </div>
+                            <div className="col-span-2">
+                                <InputText
+                                    label="Link"
+                                    name={data?.link}
+                                    onChange={(e) => setData('link', e.target.value)}
+                                    placeholder="Masukkan Link" />
+                            </div>
+                            <div className="col-span-2">
+                                <TextArea
+                                    label="Descripsi"
+                                    name={data?.desc}
+                                    onChange={(e) => setData('desc', e.target.value)}
+                                    placeholder="Masukkan Descripsi" />
+                            </div>
+                        </div>
+                    </form>
                 }
                 footer={
-                    <>
-                        <button
-                            onClick={toggleClose}
-                            className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5"
+                    <button
+                        type="submit"
+                        form="projectAdd"
+                        onSubmit={handleUpdate}
+                        className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                        <svg
+                            className="me-1 -ms-1 w-5 h-5"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
                         >
-                            Tutup Modal
-                        </button>
-                    </>
+                            <path
+                                fillRule="evenodd"
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
+                        Create Data
+                    </button>
                 }
             />
 
@@ -73,7 +149,7 @@ function Projects({ project }) {
                 onClose={() => { setDetail(false) }}
                 header={data?.title}
                 body={
-                    <>
+                    <div className="px-6 py-3 space-y-4">
                         <p className="text-gray-600 dark:text-gray-300">
                             <span>Desc :</span> <br />
                             {data?.desc}
@@ -82,7 +158,7 @@ function Projects({ project }) {
                             Link : <br />
                             {data?.link}
                         </p>
-                    </>
+                    </div>
                 }
                 footer={
                     <>
@@ -105,13 +181,25 @@ function Projects({ project }) {
                     <form className="p-4 md:p-5" id="projectEdit" onSubmit={handleUpdate}>
                         <div className="grid gap-4 mb-4 grid-cols-2">
                             <div className="col-span-2">
-                                <InputText data={data?.title} />
+                                <InputText
+                                    label="Title"
+                                    name={data?.title}
+                                    value={data?.title}
+                                    onChange={(e) => setData('title', e.target.value)} />
                             </div>
                             <div className="col-span-2">
-                                <InputText data={data?.link} />
+                                <InputText
+                                    label="Link"
+                                    name={data?.link}
+                                    value={data?.link}
+                                    onChange={(e) => setData('link', e.target.value)} />
                             </div>
                             <div className="col-span-2">
-                                <TextArea data={data?.desc} />
+                                <TextArea
+                                    label="Descripsi"
+                                    name={data?.desc}
+                                    value={data?.desc}
+                                    onChange={(e) => setData('desc', e.target.value)} />
                             </div>
                         </div>
                     </form>
@@ -120,6 +208,7 @@ function Projects({ project }) {
                     <button
                         type="submit"
                         form="projectEdit"
+                        onSubmit={handleUpdate}
                         className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
                         <svg
@@ -135,6 +224,45 @@ function Projects({ project }) {
                         </svg>
                         Update Data
                     </button>
+                }
+            />
+
+            {/* Delete */}
+            <Modal
+                isOpen={destroy}
+                onClose={() => { setDestroy(false) }}
+                header="Hapus Project"
+                body={
+                    <div className="p-4 md:p-5 text-center">
+                        <svg className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" fill="none" viewBox="0 0 20 20">
+                            <path
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                        </svg>
+                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                            Are you sure you want to delete this project? <br />
+                            <span className="font-bold size-36">{data?.title}</span>
+                        </h3>
+                        <button
+                            onClick={() => {
+                                handleDelete(data?.id)
+                                setDestroy(false)
+                            }}
+                            className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+                        >
+                            Yes, I'm sure
+                        </button>
+                        <button
+                            onClick={() => setDestroy(false)}
+                            className="py-2.5 px-5 ml-3 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                        >
+                            No, cancel
+                        </button>
+                    </div>
                 }
             />
 
@@ -154,7 +282,7 @@ function Projects({ project }) {
                                     <h5>All Projects</h5>
                                     <button
                                         type="button"
-                                        onClick={() => setModal(true)}
+                                        onClick={() => setAdd(true)}
                                         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                                     >
                                         Tambah Project
@@ -210,16 +338,16 @@ function Projects({ project }) {
                                                                 className="badge bg-theme-bg-1 text-white text-[12px]">
                                                                 Detail
                                                             </button>
-                                                            <button onClick={() => {
-                                                                setEdit(true);
-                                                                setData(item);
-                                                            }}
+                                                            <button onClick={() => Edit(item)}
                                                                 className="badge bg-theme-bg-2 text-white text-[12px] mx-2">
                                                                 Edit
                                                             </button>
-                                                            <a href="#!" className="badge bg-red-500 text-white text-[12px]">
+                                                            <button onClick={() => {
+                                                                setDestroy(true);
+                                                                setData(item);
+                                                            }} className="badge bg-red-500 text-white text-[12px]">
                                                                 Delete
-                                                            </a>
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                 ))

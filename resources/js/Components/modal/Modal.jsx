@@ -19,7 +19,7 @@ function Modal({isOpen, onClose, header, body, footer}) {
                         </button>
                     </div>
 
-                    <div className="p-6 space-y-4">
+                    <div className="px-6 py-1 space-y-4">
                         {body}
                     </div>
 

@@ -1,18 +1,19 @@
-function TextArea({data}) {
+function TextArea({ label, name, value, onChange, placeholder }) {
     return (
         <>
             <label
-                htmlFor="description"
+                htmlFor={name}
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-                Description
+                {label}
             </label>
             <textarea
-                id="description"
+                id={name}
                 rows="4"
-                value={data}
+                value={value}
+                onChange={onChange}
                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                placeholder="Write product description here"
+                placeholder={placeholder}
             ></textarea>
         </>
     )

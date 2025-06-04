@@ -40,7 +40,15 @@ class projectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'tahun' => 'required|numeric',
+            'desc' => 'required|string|max:255',
+            'link' => 'required|string|max:255',
+        ]);
+
+        project::create($validated);
+        return redirect()->back();
     }
 
     /**
@@ -64,7 +72,13 @@ class projectController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'desc' => 'required|string|max:255',
+            'link' => 'required|string|max:255',
+        ]);
+        project::where('id', $id)->update($validated);
+        return redirect()->back();
     }
 
     /**
@@ -72,6 +86,7 @@ class projectController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        project::findorFail($id)->delete();
+        return redirect()->back();
     }
 }
