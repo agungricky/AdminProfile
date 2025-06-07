@@ -5,6 +5,7 @@ import { useState } from "react";
 import Modal from "@/Components/modal/Modal";
 import InputText from "@/Components/form/InputText";
 import TextArea from "@/Components/form/TextArea";
+import InputYear from "@/Components/form/InputYear";
 
 function Projects({ project }) {
     const handleToggle = (id, newStatus) => {
@@ -23,10 +24,9 @@ function Projects({ project }) {
     const [edit, setEdit] = useState(false);
     const [destroy, setDestroy] = useState(false);
     const [add, setAdd] = useState(false);
-    const toggleClose = () => setModal(false);
-
 
     const { data, setData, post, patch } = useForm(null);
+    const [oldData, setOldData] = useState(null);
 
     const handleAdd = (e) => {
         e.preventDefault();
@@ -49,6 +49,10 @@ function Projects({ project }) {
             tahun: item.tahun,
             link: item.link,
             desc: item.desc,
+        });
+
+        setOldData({
+            title: item.title,
         });
     };
 
@@ -97,10 +101,10 @@ function Projects({ project }) {
                                     placeholder="Masukkan Title" />
                             </div>
                             <div className="col-span-2">
-                                <InputText
+                                <InputYear
                                     label="Tahun"
                                     name={data?.tahun}
-                                    onChange={(e) => setData('tahun', e.target.value)}
+                                    onChange={(value) => setData('tahun', value)}
                                     placeholder="Masukkan Tahun" />
                             </div>
                             <div className="col-span-2">
@@ -155,6 +159,10 @@ function Projects({ project }) {
                             {data?.desc}
                         </p>
                         <p className="text-gray-600 dark:text-gray-300">
+                            <span>Tahun :</span> <br />
+                            {data?.tahun}
+                        </p>
+                        <p className="text-gray-600 dark:text-gray-300">
                             Link : <br />
                             {data?.link}
                         </p>
@@ -176,7 +184,7 @@ function Projects({ project }) {
             <Modal
                 isOpen={edit}
                 onClose={() => { setEdit(false) }}
-                header={data?.title}
+                header={oldData?.title}
                 body={
                     <form className="p-4 md:p-5" id="projectEdit" onSubmit={handleUpdate}>
                         <div className="grid gap-4 mb-4 grid-cols-2">
@@ -186,6 +194,13 @@ function Projects({ project }) {
                                     name={data?.title}
                                     value={data?.title}
                                     onChange={(e) => setData('title', e.target.value)} />
+                            </div>
+                            <div className="col-span-2">
+                                <InputYear
+                                    label="Tahun"
+                                    name={data?.tahun}
+                                    value={data?.tahun}
+                                    onChange={(value) => setData('tahun', value)} />
                             </div>
                             <div className="col-span-2">
                                 <InputText

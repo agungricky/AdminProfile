@@ -72,8 +72,10 @@ class projectController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'tahun' => 'required|numeric',
             'desc' => 'required|string|max:255',
             'link' => 'required|string|max:255',
         ]);
