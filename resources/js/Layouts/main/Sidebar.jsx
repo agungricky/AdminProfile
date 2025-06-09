@@ -74,7 +74,7 @@ function Sidebar() {
                                     </li>
 
                                     <li className="pc-item">
-                                        <a className="pc-link" href="#!">Teknologi sedang dipelajari</a>
+                                        <Link className="pc-link" href={route('techlearning.index')}>Teknologi sedang dipelajari</Link>
                                     </li>
                                 </ul>
                             )}

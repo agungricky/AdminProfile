@@ -1,6 +1,6 @@
-import { Link } from "@inertiajs/react"
+import { Children } from "react"
 
-function HeaderPages({pages, subPages, subsubPages, header}) {
+function HeaderPages({header, children}) {
     return (
         <div className="page-header">
             <div className="page-block">
@@ -8,9 +8,7 @@ function HeaderPages({pages, subPages, subsubPages, header}) {
                     <h5 className="mb-0 font-medium">{header?.header}</h5>
                 </div>
                 <ul className="breadcrumb">
-                    <li className="breadcrumb-item"><Link href="">{pages?.pages}</Link></li>
-                    <li className="breadcrumb-item"><Link href="">{subPages?.subPages}</Link></li>
-                    <li className="breadcrumb-item" aria-current="page">{subsubPages?.subsubPages}</li>
+                    {children}
                 </ul>
             </div>
         </div>

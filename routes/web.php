@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\homeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\projectController;
+use App\Http\Controllers\TechLearing;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,6 +31,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/projects/{id}/toggle-status', [ProjectController::class, 'toggleStatus'])->name('projects.status');
     Route::patch('/projects/{id}', [ProjectController::class, 'update'])->name('project.update');
     Route::delete('/project/{id}', [projectController::class, 'destroy'])->name('project.destroy');
+
+    Route::get('/technologi/dipelajari', [TechLearing::class, 'index'])->name('techlearning.index');
+    Route::patch('/techlearning/{id}/toggle-status', [TechLearing::class, 'toggleStatus'])->name('techlearning.status');
 
 });
 

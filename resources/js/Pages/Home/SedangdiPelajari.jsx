@@ -1,15 +1,13 @@
-import Main from "../Main"
-import { Link, router, useForm } from '@inertiajs/react';
 import HeaderPages from "@/Layouts/itemPages/HeaderPages";
-import { useState } from "react";
+import Main from "../Main"
+import { Link, router, useForm } from "@inertiajs/react";
 import Modal from "@/Components/modal/Modal";
+import { use, useEffect, useState } from "react";
 import InputText from "@/Components/form/InputText";
-import TextArea from "@/Components/form/TextArea";
-import InputYear from "@/Components/form/InputYear";
 
-function Projects({ project }) {
+function SedangdiPelajari({ tech }) {
     const handleToggle = (id, newStatus) => {
-        router.post(route('projects.status', id), { status: newStatus }, {
+        router.patch(route('techlearning.status', id), { status: newStatus }, {
             preserveScroll: true,
             onSuccess: () => {
                 console.log('Status updated successfully');
@@ -24,9 +22,7 @@ function Projects({ project }) {
     const [edit, setEdit] = useState(false);
     const [destroy, setDestroy] = useState(false);
     const [add, setAdd] = useState(false);
-
-    const { data, setData, post, patch } = useForm(null);
-    const [oldData, setOldData] = useState(null);
+    const { data, setData } = useForm(null);
 
     const handleAdd = (e) => {
         e.preventDefault();
@@ -46,52 +42,21 @@ function Projects({ project }) {
         setData({
             id: item.id,
             title: item.title,
-            tahun: item.tahun,
-            link: item.link,
-            desc: item.desc,
-        });
-
-        setOldData({
-            title: item.title,
+            subtitle: item.subTitle,
+            image: item.image,
         });
     };
 
-    const handleUpdate = (e) => {
-        e.preventDefault();
-        patch(route('project.update', data.id), {
-            preserveScroll: true,
-            onSuccess: () => {
-                setEdit(false);
-            },
-            onError: (errors) => {
-                console.error('Update failed', errors);
-            }
-        });
-    };
-
-    const { delete: hapus } = useForm();
-    const handleDelete = (id) => {
-        hapus(route('project.destroy', id), {
-            preserveScroll: true,
-            onSuccess: () => {
-                setDestroy(false);
-            },
-            onError: (errors) => {
-                console.error('Delete failed', errors);
-            }
-        });
-    };
 
     return (
         <Main>
-
             {/* Add Project */}
             <Modal
                 isOpen={add}
                 onClose={() => { setAdd(false) }}
-                header="Add Project"
+                header="Add Technology Sedang dipelajari"
                 body={
-                    <form className="p-4 md:p-5" id="projectAdd" onSubmit={handleAdd}>
+                    <form className="p-4 md:p-5 max-h-[70vh] overflow-y-auto" id="projectAdd" onSubmit={handleAdd}>
                         <div className="grid gap-4 mb-4 grid-cols-2">
                             <div className="col-span-2">
                                 <InputText
@@ -101,26 +66,31 @@ function Projects({ project }) {
                                     placeholder="Masukkan Title" />
                             </div>
                             <div className="col-span-2">
-                                <InputYear
-                                    label="Tahun"
-                                    name={data?.tahun}
-                                    onChange={(value) => setData('tahun', value)}
-                                    placeholder="Masukkan Tahun" />
+                                <InputText
+                                    label="Sub Title"
+                                    name={data?.title}
+                                    onChange={(e) => setData('subtitle', e.target.value)}
+                                    placeholder="Masukkan Sub Title" />
                             </div>
                             <div className="col-span-2">
                                 <InputText
-                                    label="Link"
-                                    name={data?.link}
-                                    onChange={(e) => setData('link', e.target.value)}
-                                    placeholder="Masukkan Link" />
+                                    label="Image"
+                                    name={data?.imange}
+                                    onChange={(e) => setData('image', e.target.value)}
+                                    placeholder="Masukkan image" />
                             </div>
-                            <div className="col-span-2">
-                                <TextArea
-                                    label="Descripsi"
-                                    name={data?.desc}
-                                    onChange={(e) => setData('desc', e.target.value)}
-                                    placeholder="Masukkan Descripsi" />
-                            </div>
+                            {
+                                data?.image &&
+                                <div className="col-span-2">
+                                    <p className="text-sm text-gray-500">Preview:</p>
+                                    <img
+                                        src={data?.image}
+                                        alt="Preview"
+                                        className="w-full max-h-64 object-contain rounded"
+                                    />
+                                </div>
+                            }
+
                         </div>
                     </form>
                 }
@@ -128,7 +98,7 @@ function Projects({ project }) {
                     <button
                         type="submit"
                         form="projectAdd"
-                        onSubmit={handleUpdate}
+                        onSubmit=""
                         className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
                         <svg
@@ -155,17 +125,21 @@ function Projects({ project }) {
                 body={
                     <div className="px-6 py-3 space-y-4">
                         <p className="text-gray-600 dark:text-gray-300">
-                            <span>Desc :</span> <br />
-                            {data?.desc}
+                            <span>Sub Title :</span> <br />
+                            {data?.subTitle}
                         </p>
                         <p className="text-gray-600 dark:text-gray-300">
-                            <span>Tahun :</span> <br />
-                            {data?.tahun}
+                            <span>Image :</span> <br />
+                            {data?.image}
                         </p>
-                        <p className="text-gray-600 dark:text-gray-300">
-                            Link : <br />
-                            {data?.link}
-                        </p>
+                        <div className="mt-4">
+                            <p className="text-sm text-gray-500 mb-2">Preview:</p>
+                            <img
+                                src={data?.image}
+                                alt="Preview"
+                                className="w-full max-h-64 object-contain rounded"
+                            />
+                        </div>
                     </div>
                 }
                 footer={
@@ -184,38 +158,46 @@ function Projects({ project }) {
             <Modal
                 isOpen={edit}
                 onClose={() => { setEdit(false) }}
-                header={oldData?.title}
+                header={data?.title}
                 body={
-                    <form className="p-4 md:p-5" id="projectEdit" onSubmit={handleUpdate}>
+                    <form className="p-4 md:p-5 max-h-[70vh] overflow-y-auto" id="projectEdit">
                         <div className="grid gap-4 mb-4 grid-cols-2">
                             <div className="col-span-2">
                                 <InputText
                                     label="Title"
                                     name={data?.title}
                                     value={data?.title}
-                                    onChange={(e) => setData('title', e.target.value)} />
-                            </div>
-                            <div className="col-span-2">
-                                <InputYear
-                                    label="Tahun"
-                                    name={data?.tahun}
-                                    value={data?.tahun}
-                                    onChange={(value) => setData('tahun', value)} />
+                                    onChange={(e) => setData('title', e.target.value)}
+                                    placeholder="Masukkan Title" />
                             </div>
                             <div className="col-span-2">
                                 <InputText
-                                    label="Link"
-                                    name={data?.link}
-                                    value={data?.link}
-                                    onChange={(e) => setData('link', e.target.value)} />
+                                    label="Sub Title"
+                                    name={data?.subtitle}
+                                    value={data?.subtitle}
+                                    onChange={(e) => setData('subtitle', e.target.value)}
+                                    placeholder="Masukkan Sub Title" />
                             </div>
                             <div className="col-span-2">
-                                <TextArea
-                                    label="Descripsi"
-                                    name={data?.desc}
-                                    value={data?.desc}
-                                    onChange={(e) => setData('desc', e.target.value)} />
+                                <InputText
+                                    label="Image"
+                                    name={data?.imange}
+                                    value={data?.image}
+                                    onChange={(e) => setData('image', e.target.value)}
+                                    placeholder="Masukkan image" />
                             </div>
+                            {
+                                data?.image &&
+                                <div className="col-span-2">
+                                    <p className="text-sm text-gray-500">Preview:</p>
+                                    <img
+                                        src={data?.image}
+                                        alt="Preview"
+                                        className="w-full max-h-64 object-contain rounded"
+                                    />
+                                </div>
+                            }
+
                         </div>
                     </form>
                 }
@@ -223,7 +205,7 @@ function Projects({ project }) {
                     <button
                         type="submit"
                         form="projectEdit"
-                        onSubmit={handleUpdate}
+                        onSubmit=""
                         className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
                         <svg
@@ -287,8 +269,8 @@ function Projects({ project }) {
                         header={{ header: 'Projects' }}
                     >
                         <li className="breadcrumb-item"><Link href="">Home</Link></li>
-                        <li className="breadcrumb-item"><Link href="">Project</Link></li>
-                        <li className="breadcrumb-item" aria-current="page">Aplikasi Pernah dibuat</li>
+                        <li className="breadcrumb-item"><Link href="">Projects</Link></li>
+                        <li className="breadcrumb-item" aria-current="page">Teknologi Sedang dipelajari</li>
                     </HeaderPages>
 
                     <div className="col-span-12 xl:col-span-8 md:col-span-6">
@@ -310,22 +292,21 @@ function Projects({ project }) {
                                     <table className="table table-hover">
                                         <tbody>
                                             {
-                                                project.map((item, index) => (
+                                                tech.map((item, index) => (
                                                     <tr className="unread" key={index}>
                                                         <td>
                                                             <div className="font-bold">{index + 1}</div>
                                                         </td>
                                                         <td>
                                                             <h6 className="mb-1">{item?.title}</h6>
-                                                            {item?.desc?.length > 20 ? item.desc.slice(0, 60) + '...' : item.desc}
-                                                            <p className="m-0"></p>
+                                                            {item?.subTitle?.length > 20 ? item.subTitle.slice(0, 60) + '...' : item.subTitle}
                                                         </td>
                                                         <td>
                                                             <h6 className="text-muted">
                                                                 <i
                                                                     className={`fas fa-circle text-white text-[10px] ltr:mr-4 rtl:ml-4`}
                                                                 ></i>
-                                                                {item?.link?.length > 20 ? item.link.slice(0, 20) + '...' : item.link}
+                                                                {item?.image?.length > 20 ? item.image.slice(0, 20) + '...' : item.image}
                                                             </h6>
                                                         </td>
                                                         <td>
@@ -380,4 +361,4 @@ function Projects({ project }) {
     )
 }
 
-export default Projects
+export default SedangdiPelajari
