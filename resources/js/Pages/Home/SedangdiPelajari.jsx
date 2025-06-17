@@ -2,7 +2,7 @@ import HeaderPages from "@/Layouts/itemPages/HeaderPages";
 import Main from "../Main"
 import { Link, router, useForm } from "@inertiajs/react";
 import Modal from "@/Components/modal/Modal";
-import { use, useEffect, useState } from "react";
+import { useState } from "react";
 import InputText from "@/Components/form/InputText";
 
 function SedangdiPelajari({ tech }) {
@@ -304,8 +304,9 @@ function SedangdiPelajari({ tech }) {
                                                         <td>
                                                             <h6 className="text-muted">
                                                                 <i
-                                                                    className={`fas fa-circle text-white text-[10px] ltr:mr-4 rtl:ml-4`}
-                                                                ></i>
+                                                                    className={`fas fa-circle text-[10px] ltr:mr-4 rtl:ml-4 ${item.status === 'show' ? 'text-green-500' : 'text-red-500'
+                                                                        }`}
+                                                                />
                                                                 {item?.image?.length > 20 ? item.image.slice(0, 20) + '...' : item.image}
                                                             </h6>
                                                         </td>

@@ -98,11 +98,11 @@ function Sidebar() {
                             {isOpen('about-levels') && (
                                 <ul className="pc-submenu">
                                     <li className="pc-item">
-                                        <a className="pc-link" href="#!">Riwayat Karier</a>
+                                        <Link className="pc-link" href={route('karier.index')}>Riwayat Karier</Link>
                                     </li>
 
                                     <li className="pc-item">
-                                        <a className="pc-link" href="#!">Tentang Saya</a>
+                                        <Link className="pc-link" href={route('About.index')}>Tentang Saya</Link>
                                     </li>
                                 </ul>
                             )}

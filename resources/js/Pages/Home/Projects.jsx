@@ -323,8 +323,9 @@ function Projects({ project }) {
                                                         <td>
                                                             <h6 className="text-muted">
                                                                 <i
-                                                                    className={`fas fa-circle text-white text-[10px] ltr:mr-4 rtl:ml-4`}
-                                                                ></i>
+                                                                    className={`fas fa-circle text-[10px] ltr:mr-4 rtl:ml-4 ${item.status === 'show' ? 'text-green-500' : 'text-red-500'
+                                                                        }`}
+                                                                />
                                                                 {item?.link?.length > 20 ? item.link.slice(0, 20) + '...' : item.link}
                                                             </h6>
                                                         </td>

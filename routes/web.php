@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\karier;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\projectController;
 use App\Http\Controllers\TechLearing;
+use App\Http\Controllers\TentangSayaController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,6 +37,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/technologi/dipelajari', [TechLearing::class, 'index'])->name('techlearning.index');
     Route::patch('/techlearning/{id}/toggle-status', [TechLearing::class, 'toggleStatus'])->name('techlearning.status');
+
+    Route::get('/karier', [karier::class, 'index'])->name('karier.index');
+    Route::get('/Tentang-saya', [AboutController::class, 'index'])->name('About.index');
+
 
 });
 
