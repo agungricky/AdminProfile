@@ -1,10 +1,10 @@
 import TentangSaya from "@/Layouts/About/TentangSaya"
 import Main from "../Main"
 import RiwayatPendidikan from "@/Layouts/About/RiwayatPendidikan"
-import Prestasi from "@/Layouts/About/Prestasi"
-import List from "@/Layouts/About/List"
+import Tech from "@/Layouts/About/Tech"
+import SkillNon_teknis from "@/Layouts/About/SkillNon_teknis"
 
-function Index({ tentangSaya, riwayatPendidikan, prestasi, tech, ketrampilanNonTeknis }) {
+function Index({ tentangSaya, riwayatPendidikan, tech, ketrampilanNonTeknis }) {
     return (
         <Main>
             <div className="pc-container">
@@ -22,13 +22,18 @@ function Index({ tentangSaya, riwayatPendidikan, prestasi, tech, ketrampilanNonT
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-12 gap-6">
-                        <TentangSaya desc={tentangSaya} />
-                        <RiwayatPendidikan pendidikan={riwayatPendidikan} />
-                        <Prestasi prestasi={prestasi} />
-                        <List data={tech} title="Teknologi di Gunakan" style="col-span-12 md:col-span-3 lg:col-span-4" />
-                        <List data={ketrampilanNonTeknis} title="Keterampilan Non-Teknis" style="col-span-12 md:col-span-9 lg:col-span-8" />
+                    <div className="grid grid-cols-12 gap-6 auto-rows-min">
+                        <div className="col-span-12 lg:col-span-6">
+                            <TentangSaya desc={tentangSaya} />
+                            <Tech data={tech} title="Teknologi di Gunakan" />
+
+                        </div>
+                        <div className="col-span-12 lg:col-span-6">
+                            <RiwayatPendidikan pendidikan={riwayatPendidikan} />
+                            <SkillNon_teknis data={ketrampilanNonTeknis} title="Keterampilan Non-Teknis" />
+                        </div>
                     </div>
+
                 </div>
             </div>
         </Main>

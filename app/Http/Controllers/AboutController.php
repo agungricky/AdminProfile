@@ -19,10 +19,9 @@ class AboutController extends Controller
     {
         $tentangSaya = Tentang_saya::first();
         $riwayatPendidikan = RiwayatPendidikan::all();
-        $prestasi = Prestasi::all();
         $tech = Tech_digunakan::all();
         $ketrampilanNonTeknis = Ketrampilan_Nonteknis::all();
-        return Inertia::render('About/Index', compact('tentangSaya', 'riwayatPendidikan', 'prestasi', 'tech', 'ketrampilanNonTeknis'));
+        return Inertia::render('About/Index', compact('tentangSaya', 'riwayatPendidikan', 'tech', 'ketrampilanNonTeknis'));
     }
 
     /**

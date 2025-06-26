@@ -109,30 +109,30 @@ function Sidebar() {
                         </li>
 
                         <li className="pc-item">
-                            <a href="../other/sample-page.html" className="pc-link">
+                            <Link href={route('prestasi.index')} className="pc-link">
                                 <span className="pc-micon">
                                     <i data-feather="award"></i>
                                 </span>
                                 <span className="pc-mtext">Prestasi</span>
-                            </a>
+                            </Link>
                         </li>
 
                         <li className="pc-item">
-                            <a href="../other/sample-page.html" className="pc-link">
+                            <Link href={route('projectLive.index')} className="pc-link">
                                 <span className="pc-micon">
                                     <i data-feather="airplay"></i>
                                 </span>
                                 <span className="pc-mtext">Project Live</span>
-                            </a>
+                            </Link>
                         </li>
 
                         <li className="pc-item">
-                            <a href="../other/sample-page.html" className="pc-link">
+                            <Link href={route('message.index')} className="pc-link">
                                 <span className="pc-micon">
                                     <i data-feather="message-square"></i>
                                 </span>
                                 <span className="pc-mtext">Message</span>
-                            </a>
+                            </Link>
                         </li>
 
                         {/* Menu Item */}

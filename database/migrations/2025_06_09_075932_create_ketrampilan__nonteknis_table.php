@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ketrampilan__nonteknis', function (Blueprint $table) {
             $table->id();
             $table->string('nama_ketrampilan', 100);
-            $table->string('deskripsi, 200');
+            $table->string('deskripsi', 200);
             $table->enum('status', ['show', 'hide'])->default('show');
             $table->timestamps();
         });
