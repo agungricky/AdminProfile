@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kariers', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->string("perusahaan", 50);
-            $table->string("jobdesk", 200);
-            $table->enum("model_kerja", ['Fulltime', 'Part Time', 'Freelance', 'Remote', 'Project Based']);
-            $table->string("lokasi", 50);
-            $table->enum("status", ['show', 'hide'])->default('show');
+            $table->string('Fullname');
+            $table->string('Email');
+            $table->string('wa');
+            $table->string('message');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kariers');
+        Schema::dropIfExists('messages');
     }
 };

@@ -1,3 +1,7 @@
+import React, { useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 function TextArea({ label, name, value, onChange, placeholder }) {
     return (
         <>
@@ -7,14 +11,24 @@ function TextArea({ label, name, value, onChange, placeholder }) {
             >
                 {label}
             </label>
-            <textarea
+            <ReactQuill
+                theme="snow"
                 id={name}
                 rows="4"
                 value={value}
                 onChange={onChange}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="h-32 mb-10"
                 placeholder={placeholder}
-            ></textarea>
+                modules={{
+                    toolbar: [
+                        [{ header: [1, 2, false] }],
+                        ['bold', 'italic', 'underline'],
+                        ['link', 'image'],
+                        [{ list: 'ordered' }, { list: 'bullet' }],
+                        ['clean'],
+                    ],
+                }}
+            />
         </>
     )
 }

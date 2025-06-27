@@ -4,6 +4,7 @@ import { Link, router, useForm } from "@inertiajs/react";
 import Modal from "@/Components/modal/Modal";
 import { useState } from "react";
 import InputText from "@/Components/form/InputText";
+import Button_primary from "@/Components/button/Button_primary";
 
 function SedangdiPelajari({ tech }) {
     const handleToggle = (id, newStatus) => {
@@ -266,10 +267,9 @@ function SedangdiPelajari({ tech }) {
             <div className="pc-container">
                 <div className="pc-content">
                     <HeaderPages
-                        header={{ header: 'Projects' }}
+                        header={{ header: 'Teknologi Sering di Gunakan' }}
                     >
                         <li className="breadcrumb-item"><Link href="">Home</Link></li>
-                        <li className="breadcrumb-item"><Link href="">Projects</Link></li>
                         <li className="breadcrumb-item" aria-current="page">Teknologi Sedang dipelajari</li>
                     </HeaderPages>
 
@@ -277,14 +277,8 @@ function SedangdiPelajari({ tech }) {
                         <div className="card table-card">
                             <div className="card-header">
                                 <div className="flex justify-between items-center">
-                                    <h5>All Projects</h5>
-                                    <button
-                                        type="button"
-                                        onClick={() => setAdd(true)}
-                                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                                    >
-                                        Tambah Project
-                                    </button>
+                                    <h5 className="mb-0 font-bold text-xl">All Teknologi</h5>
+                                    <Button_primary title="Tambah Teknologi" onClick={() => setAdd(true)} />
                                 </div>
                             </div>
                             <div className="card-body">

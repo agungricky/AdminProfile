@@ -6,6 +6,7 @@ import Modal from "@/Components/modal/Modal";
 import InputText from "@/Components/form/InputText";
 import TextArea from "@/Components/form/TextArea";
 import InputYear from "@/Components/form/InputYear";
+import Button_primary from "@/Components/button/Button_primary";
 
 function Projects({ project }) {
     const handleToggle = (id, newStatus) => {
@@ -91,16 +92,16 @@ function Projects({ project }) {
                 onClose={() => { setAdd(false) }}
                 header="Add Project"
                 body={
-                    <form className="p-4 md:p-5" id="projectAdd" onSubmit={handleAdd}>
+                    <form className="py-4 px-6 md:p-5" id="projectAdd" onSubmit={handleAdd}>
                         <div className="grid gap-4 mb-4 grid-cols-2">
-                            <div className="col-span-2">
+                            <div className="col-span-1">
                                 <InputText
                                     label="Title"
                                     name={data?.title}
                                     onChange={(e) => setData('title', e.target.value)}
                                     placeholder="Masukkan Title" />
                             </div>
-                            <div className="col-span-2">
+                            <div className="col-span-1">
                                 <InputYear
                                     label="Tahun"
                                     name={data?.tahun}
@@ -198,23 +199,24 @@ function Projects({ project }) {
                             <div className="col-span-2">
                                 <InputYear
                                     label="Tahun"
-                                    name={data?.tahun}
+                                    name="tahun"
                                     value={data?.tahun}
                                     onChange={(value) => setData('tahun', value)} />
                             </div>
                             <div className="col-span-2">
                                 <InputText
                                     label="Link"
-                                    name={data?.link}
+                                    name="link"
                                     value={data?.link}
                                     onChange={(e) => setData('link', e.target.value)} />
                             </div>
                             <div className="col-span-2">
                                 <TextArea
                                     label="Descripsi"
-                                    name={data?.desc}
+                                    name="desc"
                                     value={data?.desc}
-                                    onChange={(e) => setData('desc', e.target.value)} />
+                                    onChange={(value) => setData('desc', value)}
+                                />
                             </div>
                         </div>
                     </form>
@@ -287,7 +289,6 @@ function Projects({ project }) {
                         header={{ header: 'Projects' }}
                     >
                         <li className="breadcrumb-item"><Link href="">Home</Link></li>
-                        <li className="breadcrumb-item"><Link href="">Project</Link></li>
                         <li className="breadcrumb-item" aria-current="page">Aplikasi Pernah dibuat</li>
                     </HeaderPages>
 
@@ -295,14 +296,8 @@ function Projects({ project }) {
                         <div className="card table-card">
                             <div className="card-header">
                                 <div className="flex justify-between items-center">
-                                    <h5>All Projects</h5>
-                                    <button
-                                        type="button"
-                                        onClick={() => setAdd(true)}
-                                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                                    >
-                                        Tambah Project
-                                    </button>
+                                    <h5 className="mb-0 font-bold text-xl">All Projects</h5>
+                                    <Button_primary title="Tambah Project" onClick={() => setAdd(true)} />
                                 </div>
                             </div>
                             <div className="card-body">
